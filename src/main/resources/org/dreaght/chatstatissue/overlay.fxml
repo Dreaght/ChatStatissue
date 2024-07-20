@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<Pane prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dreaght.chatstatissue.controller.OverlayController">
+    <ListView fx:id="messageList" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-control-inner-background: transparent; -fx-background-insets: 0;">
+        <stylesheets>
+            <URL value="@styles.css" />
+        </stylesheets>
+    </ListView>
+</Pane>
