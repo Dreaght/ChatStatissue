@@ -21,9 +21,12 @@ public class ChatServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String message) {
         System.out.println("Received message: " + message);
-        Collection<WebSocket> connections = getConnections();
-        for (WebSocket client : connections) {
-            client.send(message);
+        broadcastMessage(message);
+    }
+
+    public void onMessage(WebSocket conn, byte[] data, boolean isBinary) {
+        if (isBinary) {
+            broadcastScreenFrame(data);
         }
     }
 
@@ -40,5 +43,19 @@ public class ChatServer extends WebSocketServer {
     @Override
     public void onStart() {
         System.out.println("Server started successfully");
+    }
+
+    public void broadcastMessage(String message) {
+        Collection<WebSocket> connections = getConnections();
+        for (WebSocket client : connections) {
+            client.send(message);
+        }
+    }
+
+    public void broadcastScreenFrame(byte[] data) {
+        Collection<WebSocket> connections = getConnections();
+        for (WebSocket client : connections) {
+            client.send(data);
+        }
     }
 }

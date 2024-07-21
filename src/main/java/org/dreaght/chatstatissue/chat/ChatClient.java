@@ -24,6 +24,12 @@ public class ChatClient extends WebSocketClient {
         chatManager.onMessageReceived(message);
     }
 
+    public void onMessage(byte[] data, boolean isBinary) {
+        if (isBinary) {
+            chatManager.onScreenShareReceived(data);
+        }
+    }
+
     @Override
     public void onClose(int code, String reason, boolean remote) {
         System.out.println("Disconnected from server");
@@ -32,5 +38,13 @@ public class ChatClient extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
         ex.printStackTrace();
+    }
+
+    public void sendMessage(String message) {
+        send(message);
+    }
+
+    public void sendScreenFrame(byte[] data) {
+        send(data); // Send as binary
     }
 }
