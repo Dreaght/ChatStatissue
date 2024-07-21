@@ -2,30 +2,40 @@ package org.dreaght.chatstatissue;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.dreaght.chatstatissue.chat.ChatManager;
+import org.dreaght.chatstatissue.controller.ScreenshareController;
 import org.dreaght.chatstatissue.controller.init.InitWindowController;
 import org.dreaght.chatstatissue.controller.OverlayController;
 import org.dreaght.chatstatissue.controller.SettingsController;
 import org.dreaght.chatstatissue.handler.FadeOutHandler;
 import org.dreaght.chatstatissue.handler.RobotHandler;
-import org.dreaght.chatstatissue.chat.ChatManager;
+import org.dreaght.chatstatissue.voice.VoiceToChat;
 
 public class ChatSIApplication extends Application implements ApplicationHandler {
+
     Stage primaryStage;
     Stage settingsStage;
     Stage initWindowStage;
+    Stage screenshareStage;
+
     InitWindowController initWindowController;
     SettingsController settingsController;
     OverlayController overlayController;
+    ScreenshareController screenshareController;
+
     private ChatManager chatManager;
     private RobotHandler robotHandler;
     private FadeOutHandler fadeOutHandler;
+    private VoiceToChat voiceToChat;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         chatManager = new ChatManager(this);
         robotHandler = new RobotHandler();
+        voiceToChat = new VoiceToChat(this, chatManager);
 
         initializeSettings();
         fadeOutHandler = new FadeOutHandler(settingsStage);
@@ -39,6 +49,7 @@ public class ChatSIApplication extends Application implements ApplicationHandler
         return chatManager;
     }
 
+    @Override
     public void toggleSettings(boolean show) {
         fadeOutHandler.toggleSettings(show, settingsStage, settingsController);
     }
@@ -47,8 +58,19 @@ public class ChatSIApplication extends Application implements ApplicationHandler
         fadeOutHandler.startFadeOut();
     }
 
+    @Override
     public void stopFadeOut() {
         fadeOutHandler.stopFadeOut();
+    }
+
+    @Override
+    public void startListeningVoice() {
+        voiceToChat.startListening();
+    }
+
+    @Override
+    public void stopListening() {
+        voiceToChat.stopListening();
     }
 
     private void initializeInitWindow() throws Exception {
@@ -68,10 +90,30 @@ public class ChatSIApplication extends Application implements ApplicationHandler
         SettingsInitializer.initializeSettings(this);
     }
 
+    public void initializeScreenShare() throws Exception {
+        ScreenshareInitializer.initializeScreenshare(this);
+    }
+
+    @Override
     public void addMessageToOverlay(String message) {
         Platform.runLater(() -> overlayController.addMessage(message));
     }
 
+    @Override
+    public void updateScreenView(Image image) {
+        if (screenshareController != null) {
+            screenshareController.updateImageView(image);
+        }
+    }
+
+    @Override
+    public void closeScreenshare() {
+        if (screenshareStage != null) {
+            screenshareStage.close();
+        }
+    }
+
+    @Override
     public void closeSettings() {
         Platform.runLater(() -> settingsStage.close());
     }

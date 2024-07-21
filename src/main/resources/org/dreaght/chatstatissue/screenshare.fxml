@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="org.dreaght.chatstatissue.controller.ScreenshareController">
+    <ImageView fx:id="screenView" fitHeight="200.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true" />
+</AnchorPane>

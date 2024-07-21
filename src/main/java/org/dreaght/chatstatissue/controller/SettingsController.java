@@ -22,6 +22,9 @@ public class SettingsController {
     private ChatManager chatManager;
     private ApplicationHandler applicationHandler;
 
+    private boolean screenshareEnabled = false;
+    private boolean listeningVoice = false;
+
     @FXML
     private void initialize() {
         textField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
@@ -36,8 +39,8 @@ public class SettingsController {
                 case ENTER:
                     String message = textField.getText();
                     if (!message.trim().isEmpty()) {
-                        applicationHandler.addMessageToOverlay(message);
-                        chatManager.sendMessage(message);
+                        String finalMessage = chatManager.sendMessage(message);
+                        applicationHandler.addMessageToOverlay(finalMessage);
                         textField.clear();
                     }
                     break;
@@ -51,6 +54,31 @@ public class SettingsController {
     @FXML
     private void onReconnectButtonPress() {
         openInitWindow();
+    }
+
+    @FXML
+    private void onScreenshareButton() throws Exception {
+        screenshareEnabled = !screenshareEnabled;
+
+        if (screenshareEnabled) {
+            chatManager.startScreenSharing();
+            ((ChatSIApplication) applicationHandler).initializeScreenShare();
+        } else {
+            chatManager.stopScreenSharing();
+            applicationHandler.closeScreenshare();
+        }
+
+    }
+
+    @FXML
+    private void onVoiceButton() {
+        listeningVoice = !listeningVoice;
+
+        if (listeningVoice) {
+            applicationHandler.startListeningVoice();
+        } else {
+            applicationHandler.stopListening();
+        }
     }
 
     private void openInitWindow() {

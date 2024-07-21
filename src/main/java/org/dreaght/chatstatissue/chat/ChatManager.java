@@ -1,8 +1,11 @@
 package org.dreaght.chatstatissue.chat;
 
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import org.dreaght.chatstatissue.ChatSIApplication;
+import org.dreaght.chatstatissue.util.ScreenCaptureUtil;
 
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -12,6 +15,7 @@ public class ChatManager {
     private ChatClient chatClient;
     private ChatServer chatServer;
     private boolean isServerMode = false;
+    private boolean isScreenSharing = false;
 
     public ChatManager(ChatSIApplication application) {
         this.application = application;
@@ -39,17 +43,66 @@ public class ChatManager {
         }
     }
 
-    public void sendMessage(String message) {
+    public String sendMessage(String message) {
+        String finalMessage = "";
         if (chatClient != null) {
-            chatClient.send(message);
+            finalMessage = chatClient.getSocket().getInetAddress().getHostAddress() + ": " + message;
+            chatClient.sendMessage(finalMessage);
         } else if (chatServer != null) {
-            chatServer.broadcast(message);
+            finalMessage = chatServer.getAddress().getAddress().getHostAddress() + ": " + message;
+            chatServer.broadcastMessage(finalMessage);
         }
+        return finalMessage;
+    }
+
+    public void startScreenSharing() {
+        isScreenSharing = true;
+        new Thread(this::sendScreenFrames).start();
+    }
+
+    public void stopScreenSharing() {
+        isScreenSharing = false;
+    }
+
+    private void sendScreenFrames() {
+        while (isScreenSharing) {
+            byte[] screenCapture = ScreenCaptureUtil.captureScreen();
+
+            if (screenCapture != null) {
+                showPreview(screenCapture);
+
+                if (chatClient != null) {
+                    chatClient.sendScreenFrame(screenCapture);
+                } else if (chatServer != null) {
+                    chatServer.broadcastScreenFrame(screenCapture);
+                }
+            }
+            try {
+                Thread.sleep(100); // frame rate control
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showPreview(byte[] screenCapture) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(screenCapture);
+        Image image = new Image(bais);
+        application.updateScreenView(image);
     }
 
     public void onMessageReceived(String message) {
         Platform.runLater(() -> {
             application.addMessageToOverlay(message);
+        });
+    }
+
+    public void onScreenShareReceived(byte[] imageData) {
+        System.out.println("screenshare received");
+        Platform.runLater(() -> {
+            ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+            Image image = new Image(bais);
+            application.updateScreenView(image);
         });
     }
 
