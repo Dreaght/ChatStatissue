@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dreaght.chatstatissue.controller.init.InitWindowController">
+   <children>
+      <VBox spacing="10.0" alignment="CENTER" prefHeight="300.0" prefWidth="500.0" styleClass="dialog-background">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label-header" text="How do we connect?" textAlignment="CENTER" />
+            <Button fx:id="startServerButton" alignment="CENTER" mnemonicParsing="false" onAction="#onStartServer" prefHeight="41.0" prefWidth="221.0" styleClass="custom-button" text="Start Server" />
+            <Button fx:id="connectServerButton" alignment="CENTER" mnemonicParsing="false" onAction="#onConnectServer" prefHeight="41.0" prefWidth="221.0" styleClass="custom-button" text="Connect to Server" />
+         </children>
+      </VBox>
+   </children>
+</Pane>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="150" prefWidth="300" styleClass="dialog-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dreaght.chatstatissue.controller.init.AddressInputDialogController">
+    <children>
+        <Label layoutX="55.0" layoutY="37.0" styleClass="label-header" text="Server address?">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+        <TextField fx:id="addressTextField" layoutX="34.0" layoutY="75.0" onKeyReleased="#onOk" prefHeight="38.0" prefWidth="233.0" promptText="192.0.2.1" styleClass="custom-textfield" text="localhost">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </TextField>
+    </children>
+</Pane>

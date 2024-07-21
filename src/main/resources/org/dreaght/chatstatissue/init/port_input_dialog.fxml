@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="150" prefWidth="300" styleClass="dialog-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dreaght.chatstatissue.controller.init.PortInputDialogController">
+    <children>
+        <Label layoutX="118.0" layoutY="37.0" styleClass="label-header" text="Port?">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+        <TextField fx:id="portTextField" layoutX="34.0" layoutY="75.0" onKeyReleased="#onOk" prefHeight="38.0" prefWidth="233.0" promptText="12345" styleClass="custom-textfield" text="12345">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </TextField>
+    </children>
+</Pane>

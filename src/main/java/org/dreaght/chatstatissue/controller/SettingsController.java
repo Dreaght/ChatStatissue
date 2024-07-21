@@ -2,16 +2,12 @@ package org.dreaght.chatstatissue.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.dreaght.chatstatissue.ApplicationHandler;
 import org.dreaght.chatstatissue.ChatSIApplication;
+import org.dreaght.chatstatissue.InitWindowInitializer;
 import org.dreaght.chatstatissue.chat.ChatManager;
 
 public class SettingsController {
@@ -50,28 +46,16 @@ public class SettingsController {
                     break;
             }
         });
+    }
 
-        reconnectButton.setOnAction(event -> {
-            openInitWindow();
-        });
+    @FXML
+    private void onReconnectButtonPress() {
+        openInitWindow();
     }
 
     private void openInitWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/dreaght/chatstatissue/init_window.fxml"));
-            Pane initRoot = loader.load();
-            InitWindowController controller = loader.getController();
-            controller.setApplication((ChatSIApplication) applicationHandler);
-
-            Stage initWindowStage = new Stage(StageStyle.TRANSPARENT);
-            initWindowStage.setScene(new Scene(initRoot));
-            initWindowStage.initStyle(StageStyle.UNDECORATED);
-            initWindowStage.setTitle("Initialize Chat");
-
-            controller.setStage(initWindowStage);
-
-            initWindowStage.show();
-
+            InitWindowInitializer.initializeInitWindow((ChatSIApplication) applicationHandler);
             ((ChatSIApplication) applicationHandler).closeSettings();
         } catch (Exception e) {
             e.printStackTrace();

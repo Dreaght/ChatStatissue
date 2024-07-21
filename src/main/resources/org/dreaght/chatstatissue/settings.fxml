@@ -11,6 +11,6 @@
                 <Font size="18.0" />
             </font>
         </TextField>
-      <Button fx:id="reconnectButton" layoutX="420.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="43.0" text="🔄" />
+      <Button fx:id="reconnectButton" layoutX="420.0" mnemonicParsing="false" onAction="#onReconnectButtonPress" prefHeight="50.0" prefWidth="43.0" text="🔄" />
     </children>
 </Pane>

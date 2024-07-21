@@ -3,7 +3,7 @@ package org.dreaght.chatstatissue;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import org.dreaght.chatstatissue.controller.InitWindowController;
+import org.dreaght.chatstatissue.controller.init.InitWindowController;
 import org.dreaght.chatstatissue.controller.OverlayController;
 import org.dreaght.chatstatissue.controller.SettingsController;
 import org.dreaght.chatstatissue.handler.FadeOutHandler;
@@ -27,13 +27,11 @@ public class ChatSIApplication extends Application implements ApplicationHandler
         chatManager = new ChatManager(this);
         robotHandler = new RobotHandler();
 
-        // Initialize settings before fadeOutHandler!
         initializeSettings();
         fadeOutHandler = new FadeOutHandler(settingsStage);
 
         initializeOverlay();
         initializeInitWindow();
-        setupPrimaryStageFocusListener();
         initializeGlobalKeyListener();
     }
 
@@ -55,14 +53,7 @@ public class ChatSIApplication extends Application implements ApplicationHandler
 
     private void initializeInitWindow() throws Exception {
         InitWindowInitializer.initializeInitWindow(this);
-    }
-
-    private void setupPrimaryStageFocusListener() {
-        primaryStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (isNowFocused) {
-                robotHandler.simulateAltTab();
-            }
-        });
+        initWindowController.showInitWindow();
     }
 
     private void initializeGlobalKeyListener() {

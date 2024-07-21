@@ -19,4 +19,6 @@ module org.dreaght.chatstatissue {
     opens org.dreaght.chatstatissue.controller to javafx.fxml;
     exports org.dreaght.chatstatissue.listener;
     opens org.dreaght.chatstatissue.listener to javafx.fxml;
+    exports org.dreaght.chatstatissue.controller.init;
+    opens org.dreaght.chatstatissue.controller.init to javafx.fxml;
 }
