@@ -44,9 +44,12 @@ public class ChatManager {
     }
 
     public String sendMessage(String message) {
-        String finalMessage = "";
+        String finalMessage = message;
         if (chatClient != null) {
-            finalMessage = chatClient.getSocket().getInetAddress().getHostAddress() + ": " + message;
+            if (!(chatClient.getSocket().getInetAddress() == null)) {
+                finalMessage = chatClient.getSocket().getInetAddress().getHostAddress() + ": " + message;
+            }
+
             chatClient.sendMessage(finalMessage);
         } else if (chatServer != null) {
             finalMessage = chatServer.getAddress().getAddress().getHostAddress() + ": " + message;
